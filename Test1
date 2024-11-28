@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Key</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .key {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Key</h1>
+    <p>This was made by SimpleScripter</p>
+    <button onclick="generateKey()">Gen Key</button>
+    <div class="key" id="key-display"></div>
+
+    <script>
+        function generateKey() {
+            fetch('/generate-key')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('key-display').textContent = data.key;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
